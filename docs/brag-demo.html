@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>game-dev-skills launch demo</title>
+<style>
+:root{--bg:#141413;--card:#1e1d1c;--line:#3a3836;--fg:#f5f5f4;--muted:#a8a29e;--accent:#a78bfa;--accent2:#7c3aed;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0c0c0b;color:var(--fg);overflow:hidden;font-family:system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+.mono{font-family:ui-monospace,"Cascadia Code","SF Mono",Consolas,"DejaVu Sans Mono",monospace}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;
+ background:
+  radial-gradient(1200px 700px at 12% 8%,rgba(124,58,237,.22),transparent 60%),
+  linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/60px 60px,
+  linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/60px 60px,
+  var(--bg)}
+.scene{position:absolute;inset:0;opacity:0;display:none}
+.abs{position:absolute}
+.center{left:0;width:1920px;text-align:center}
+.big{font-weight:800;letter-spacing:-.02em;line-height:1.08}
+.acc{color:var(--accent)}
+.muted{color:var(--muted)}
+
+/* S1 */
+#floor{left:160px;top:700px;width:1600px;height:4px;background:var(--line);border-radius:2px}
+#wall{left:1100px;top:440px;width:16px;height:260px;background:#78716c;border-radius:3px}
+.sq{left:0;top:0;width:72px;height:72px;border-radius:14px;background:var(--accent)}
+.sq::after{content:"";position:absolute;right:12px;top:14px;width:14px;height:14px;border-radius:3px;background:#141413}
+#stamp{left:1240px;top:470px;border:8px solid var(--bad);color:var(--bad);font-weight:900;font-size:96px;padding:0 28px;border-radius:16px;letter-spacing:.06em;transform-origin:50% 50%}
+#stampNote{left:1200px;top:640px;width:560px;color:var(--bad);font-size:34px}
+#h1{top:120px;font-size:104px}
+
+/* S2 */
+#t2{top:230px;font-size:150px}
+#sub2{top:440px;font-size:70px;font-weight:700}
+.pill{top:620px;width:600px;height:190px;border:2px solid var(--line);background:var(--card);border-radius:24px;padding:34px 40px}
+.pill b{display:block;font-size:46px;color:var(--accent)}
+.pill span{display:block;font-size:34px;color:var(--muted);margin-top:14px}
+#pA{left:300px}#pB{left:1020px}
+#arrow2{left:900px;top:640px;width:120px;text-align:center;font-size:110px;color:var(--accent);line-height:1}
+
+/* S3 + S4 shared */
+.bar{left:210px;top:110px;width:1500px;height:120px;border-radius:22px;background:var(--card);border:2px solid var(--line);display:flex;align-items:center;padding:0 38px;font-size:46px;gap:22px}
+.bar i{font-style:normal;color:var(--accent)}
+.cur{display:inline-block;width:24px;height:46px;background:var(--accent);vertical-align:-8px;margin-left:4px}
+.panel{left:210px;top:270px;width:1500px;border-radius:22px;background:var(--card);border:2px solid var(--line);overflow:hidden}
+.phead{padding:16px 34px;border-bottom:2px solid var(--line);font-size:28px;color:var(--muted)}
+.cap{top:810px;font-size:68px}
+.disc{top:1000px;font-size:28px;color:var(--muted);text-align:center;left:0;width:1920px}
+.row{display:grid;grid-template-columns:104px 350px 550px 380px;gap:16px;align-items:center;padding:22px 34px;border-bottom:2px solid var(--line);font-size:30px;line-height:1.3;min-height:116px}
+.row:last-child{border-bottom:0}
+.row .id{color:var(--accent);font-weight:700}
+.row.h{min-height:0;padding:14px 34px;color:var(--muted);font-size:24px;letter-spacing:.08em;text-transform:uppercase}
+.num{font-weight:800;transition:none}
+
+/* S4 */
+#card4{padding:34px 40px 30px}
+.btop{display:flex;align-items:center;gap:26px;margin-bottom:26px}
+.chip{display:inline-block;padding:6px 20px;border-radius:999px;font-weight:800;font-size:26px;letter-spacing:.08em}
+.chip.maj{background:var(--warn);color:#1c1917}
+#btitle{font-size:46px;font-weight:800}
+#btag{margin-left:auto;font-size:28px;color:var(--bad);border:2px solid var(--bad);border-radius:10px;padding:4px 14px}
+.bl{font-size:34px;line-height:1.5}
+.bl span.k{color:var(--muted);display:inline-block;width:190px}
+#chips4{left:210px;top:618px;width:1500px;display:flex;gap:18px}
+.sev{border:2px solid var(--line);border-radius:12px;padding:6px 20px;font-size:28px;background:var(--card)}
+
+/* S5 */
+#h5{top:300px;font-size:128px}
+#url5{top:660px;font-size:50px;color:var(--accent)}
+#tag5{top:770px;font-size:38px;color:var(--muted)}
+
+/* controls */
+#ctl{position:fixed;left:0;right:0;bottom:0;height:64px;background:#0c0c0b;border-top:1px solid #2a2927;display:flex;align-items:center;gap:12px;padding:0 16px;font-size:14px;color:#a8a29e;z-index:5}
+#ctl button{font:inherit;color:#f5f5f4;background:#1e1d1c;border:1px solid #3a3836;border-radius:8px;padding:8px 12px;cursor:pointer}
+#ctl button:hover{border-color:#a78bfa}
+#ctl button.on{background:#7c3aed;border-color:#7c3aed}
+#scrub{flex:1;accent-color:#a78bfa;min-width:80px}
+#tm{min-width:92px;text-align:right;font-variant-numeric:tabular-nums}
+body.cap #ctl{display:none}
+@media(max-width:700px){.chipbtn{display:none}}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- Scene 1: hook -->
+  <section class="scene" id="s1">
+    <div class="abs center big" id="h1">Your game's rules<br>live in <span class="acc">your head.</span></div>
+    <div class="abs" id="floor"></div>
+    <div class="abs" id="wall"></div>
+    <div id="ghosts"></div>
+    <div class="abs sq" id="player"></div>
+    <div class="abs mono" id="stamp">BUG</div>
+    <div class="abs mono" id="stampNote">walked through a wall</div>
+  </section>
+
+  <!-- Scene 2: reveal -->
+  <section class="scene" id="s2">
+    <div class="abs center big mono" id="t2">game-dev-skills</div>
+    <div class="abs center" id="sub2">Rules first. <span class="acc">Tests second.</span></div>
+    <div class="abs pill" id="pA"><b class="mono">game-rules-core</b><span>writes RULES.md</span></div>
+    <div class="abs" id="arrow2">→</div>
+    <div class="abs pill" id="pB"><b class="mono">game-testing</b><span>writes BUG_REPORT.md</span></div>
+  </section>
+
+  <!-- Scene 3: rules -->
+  <section class="scene" id="s3">
+    <div class="abs bar mono"><i>›</i><span id="ty3"></span><span class="cur" id="cu3"></span></div>
+    <div class="abs panel" id="panel3">
+      <div class="phead mono">RULES.md</div>
+      <div class="row h"><div>ID</div><div>Trigger</div><div>Condition</div><div>Effect</div></div>
+      <div class="row" id="r1"><div class="id mono">R-001</div><div>Space pressed</div><div>grounded, or <span class="num">≤ 0.10 s</span> since leaving ground</div><div>vy = <span class="num">9.0 m/s</span></div></div>
+      <div class="row" id="r2"><div class="id mono">R-003</div><div>Player touches Cactus</div><div>not invulnerable</div><div>lives −1, invulnerable <span class="num">1.5 s</span></div></div>
+      <div class="row" id="r3"><div class="id mono">R-006</div><div>Playing, each second</div><div>speed &lt; <span class="num">20 m/s</span></div><div>speed += <span class="num">0.2 m/s</span></div></div>
+    </div>
+    <div class="abs center big cap" id="cap3">Every rule gets a <span class="acc">number.</span></div>
+    <div class="abs disc">Illustrative example output</div>
+  </section>
+
+  <!-- Scene 4: testing -->
+  <section class="scene" id="s4">
+    <div class="abs bar mono"><i>›</i><span id="ty4"></span><span class="cur" id="cu4"></span></div>
+    <div class="abs panel" id="card4">
+      <div class="btop"><span class="chip maj mono">MAJOR</span><span id="btitle">BUG-002 · Coyote time too long</span><span id="btag" class="mono">violates R-001</span></div>
+      <div class="bl" id="l1"><span class="k">Steps</span>walk off a ledge, wait 0.3 s, press Space</div>
+      <div class="bl mono" id="l2"><span class="k">Evidence</span>src/player.js:88 &nbsp;<b id="ev" style="color:var(--fg)">coyoteTime = 0.4</b></div>
+      <div class="bl mono" id="l3"><span class="k">Fix</span><b style="color:var(--ok)">coyoteTime = 0.10</b></div>
+    </div>
+    <div class="abs" id="chips4"><span class="sev mono">Critical 1</span><span class="sev mono">Major 2</span><span class="sev mono">Minor 1</span></div>
+    <div class="abs center big cap" id="cap4">No evidence, <span class="acc">no bug.</span></div>
+    <div class="abs disc">Illustrative example output</div>
+  </section>
+
+  <!-- Scene 5: outro -->
+  <section class="scene" id="s5">
+    <div class="abs center big" id="h5">Write the rules.<br><span class="acc">Then test against them.</span></div>
+    <div class="abs center mono" id="url5">github.com/Pranesh0805-S/Game-Dev-Skills</div>
+    <div class="abs center" id="tag5">Free · MIT · Works in Claude and Claude Code</div>
+  </section>
+</div>
+
+<div id="ctl">
+  <button id="pp" title="Play / pause (space)">Pause</button>
+  <input id="scrub" type="range" min="0" max="21000" value="0" aria-label="Timeline">
+  <span id="tm">0.0 / 21.0 s</span>
+  <button class="chipbtn" data-s="0">1 Hook</button>
+  <button class="chipbtn" data-s="1">2 Reveal</button>
+  <button class="chipbtn" data-s="2">3 Rules</button>
+  <button class="chipbtn" data-s="3">4 Tests</button>
+  <button class="chipbtn" data-s="4">5 Outro</button>
+</div>
+
+<script>
+(function(){
+var D=[3.4,3.4,5.4,5.4,3.4],S=[0];
+for(var i=0;i<D.length;i++)S.push(+(S[i]+D[i]).toFixed(3));
+var T=S[S.length-1];
+var Q=new URLSearchParams(location.search),CAP=Q.has('capture');
+if(CAP)document.body.classList.add('cap');
+var $=function(id){return document.getElementById(id)};
+var clamp=function(x,a,b){a=a==null?0:a;b=b==null?1:b;return Math.min(b,Math.max(a,x))};
+var p=function(t,a,b){return clamp((t-a)/(b-a))};
+var eo=function(x){return 1-Math.pow(1-x,3)};
+var eb=function(x){var c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+
+function rv(el,lt,a,dur,dy){
+  var k=eo(p(lt,a,a+(dur||.4)));
+  el.style.opacity=k;
+  el.style.transform='translateY('+((1-k)*(dy==null?26:dy))+'px)';
+}
+function typed(el,cu,text,lt,a,b){
+  var n=Math.floor(p(lt,a,b)*text.length);
+  el.textContent=text.slice(0,n);
+  cu.style.opacity=(lt>=a-.1&&lt<b+.9)?((lt<b||Math.floor(lt*2.2)%2===0)?1:0):0;
+}
+
+/* scene 1 */
+var player=$('player'),wall=$('wall'),stamp=$('stamp'),stampNote=$('stampNote'),ghostWrap=$('ghosts'),ghosts=[];
+for(var g=0;g<6;g++){var d=document.createElement('div');d.className='abs sq';ghostWrap.appendChild(d);ghosts.push(d)}
+function px(lt){return lt<1.6?160+1540*Math.pow(Math.max(0,lt)/1.6,1.5):1700}
+function s1(lt){
+  var x=px(lt);
+  player.style.transform='translate('+x+'px,628px)';
+  for(var k=0;k<ghosts.length;k++){
+    var gx=px(lt-(k+1)*.04);
+    ghosts[k].style.transform='translate('+gx+'px,628px)';
+    ghosts[k].style.opacity=(lt>.05&&lt<1.7)?(.42/(k+1)):0;
+  }
+  var hit=lt>1.1;
+  var jit=(lt>1.1&&lt<2.0)?Math.sin(lt*90)*6:0;
+  wall.style.transform='translateX('+jit+'px)';
+  wall.style.background=hit?'var(--bad)':'#78716c';
+  var sp=eb(p(lt,1.3,1.62));
+  stamp.style.opacity=p(lt,1.3,1.4);
+  stamp.style.transform='rotate(-8deg) scale('+(.4+.6*sp)+')';
+  rv(stampNote,lt,1.6,.3,12);
+  rv($('h1'),lt,.5,.5,30);
+}
+function s2(lt){
+  rv($('t2'),lt,.25,.45,34);rv($('sub2'),lt,.75,.4);
+  rv($('pA'),lt,1.15,.4,36);rv($('pB'),lt,1.5,.4,36);rv($('arrow2'),lt,1.9,.35,0);
+}
+function s3(lt){
+  typed($('ty3'),$('cu3'),'Use game-rules-core. 3D runner. Write RULES.md.',lt,.3,1.6);
+  rv($('panel3'),lt,1.6,.3,20);
+  rv($('r1'),lt,1.9,.4,30);rv($('r2'),lt,2.35,.4,30);rv($('r3'),lt,2.8,.4,30);
+  var nums=document.querySelectorAll('#s3 .num'),on=lt>3.2,pulse=on?(1-p(lt,3.2,3.7)):0;
+  for(var i=0;i<nums.length;i++){nums[i].style.color=on?'var(--accent)':'inherit';nums[i].style.textShadow=on?('0 0 '+(24*pulse)+'px rgba(167,139,250,.9)'):'none'}
+  rv($('cap3'),lt,3.1,.4);
+}
+function s4(lt){
+  typed($('ty4'),$('cu4'),'Use game-testing. Check it against RULES.md.',lt,.3,1.6);
+  rv($('card4'),lt,2.0,.45,40);
+  rv($('l1'),lt,2.45,.35,16);rv($('l2'),lt,2.9,.35,16);rv($('l3'),lt,3.4,.35,16);
+  $('ev').style.color=lt>3.1?'var(--bad)':'var(--fg)';
+  rv($('chips4'),lt,3.8,.4,16);
+  rv($('cap4'),lt,3.6,.4);
+}
+function s5(lt){
+  rv($('h5'),lt,.2,.5,34);rv($('url5'),lt,1.0,.4,20);rv($('tag5'),lt,1.5,.4,20);
+}
+var fns=[s1,s2,s3,s4,s5],els=[$('s1'),$('s2'),$('s3'),$('s4'),$('s5')];
+
+function render(t){
+  t=clamp(t,0,T);
+  for(var i=0;i<5;i++){
+    var inScene=t>=S[i]&&(t<S[i+1]||(i===4&&t<=T));
+    var el=els[i];
+    if(!inScene){el.style.display='none';continue}
+    var lt=t-S[i],d=D[i];
+    el.style.display='block';
+    var a=(i===0)?1:eo(p(lt,0,.3));
+    var o=(i===4)?1:1-p(lt,d-.3,d);
+    el.style.opacity=Math.min(a,o);
+    fns[i](lt);
+  }
+  if(!CAP){
+    $('scrub').value=Math.round(t*1000);
+    $('tm').textContent=t.toFixed(1)+' / '+T.toFixed(1)+' s';
+  }
+}
+window.__render=render;window.__T=T;
+
+/* playback */
+var st={t:0,play:false,last:0};
+function setPlay(on){
+  st.play=on;st.last=performance.now();
+  $('pp').textContent=on?'Pause':(st.t>=T?'Replay':'Play');
+}
+function loop(now){
+  if(st.play){
+    st.t+=(now-st.last)/1000;st.last=now;
+    if(st.t>=T){st.t=T;setPlay(false)}
+  }
+  render(st.t);
+  requestAnimationFrame(loop);
+}
+function fit(){
+  var ch=CAP?0:64,w=innerWidth,h=innerHeight-ch,s=CAP?1:Math.min(w/1920,h/1080);
+  $('stage').style.transform='translate('+(w-1920*s)/2+'px,'+(h-1080*s)/2+'px) scale('+s+')';
+}
+addEventListener('resize',fit);fit();
+if(CAP){render(0)}
+else{
+  $('pp').onclick=function(){if(st.t>=T){st.t=0}setPlay(!st.play)};
+  $('scrub').oninput=function(){st.t=this.value/1000;setPlay(false);$('pp').textContent='Play'};
+  document.querySelectorAll('.chipbtn').forEach(function(b){b.onclick=function(){st.t=S[+b.dataset.s]+.01;setPlay(true)}});
+  $('stage').onclick=function(){if(st.t>=T)st.t=0;setPlay(!st.play)};
+  addEventListener('keydown',function(e){
+    if(e.code==='Space'){e.preventDefault();if(st.t>=T)st.t=0;setPlay(!st.play)}
+    if(e.code==='ArrowRight'){st.t=clamp(st.t+1,0,T)}
+    if(e.code==='ArrowLeft'){st.t=clamp(st.t-1,0,T)}
+  });
+  var qt=parseFloat(Q.get('t'));
+  if(!isNaN(qt)){st.t=qt;setPlay(false)}else{setPlay(true)}
+  requestAnimationFrame(loop);
+}
+})();
+</script>
+</body>
+</html>
