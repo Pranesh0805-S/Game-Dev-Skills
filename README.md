@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎮 game-dev-skills
+# 🎮 Game-Dev-Skills
 
 **Two Claude Skills that give any game project a rulebook and a QA pass.**
 
@@ -9,7 +9,10 @@
 [![2D + 3D](https://img.shields.io/badge/2D%20%2B%203D-supported-green)](#-what-it-covers)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-[Live interactive demo](https://pranesh0805-s.github.io/game-dev-skills/) ·
+[![Watch the 21-second launch video](docs/media/brag.jpg)](docs/media/brag.mp4)
+
+**[▶ Rule builder demo](https://pranesh0805-s.github.io/Game-Dev-Skills/)** ·
+**[▶ Animated launch demo](https://pranesh0805-s.github.io/Game-Dev-Skills/brag-demo.html)** ·
 [Getting started](docs/getting-started.md) ·
 [FAQ](docs/faq.md)
 
@@ -67,8 +70,8 @@ Claude identifies dimension, genre, camera and input, then produces a rules tabl
 
 | ID | Trigger | Condition | Effect | Edge case |
 |---|---|---|---|---|
-| R-001 | Player presses Jump | Grounded or within 0.10 s of leaving ground | vy = 9.0 m/s | Jump buffered for 0.10 s |
-| R-002 | Player y < -10 m | any | Lose life, respawn at checkpoint | Invulnerable 1.5 s after respawn |
+| R-001 | Space pressed | grounded, or ≤ 0.10 s since leaving ground | vy = 9.0 m/s | press up to 0.10 s before landing still jumps |
+| R-003 | Player touches Cactus | not invulnerable | lives −1, invulnerable 1.5 s | touching during invulnerability does nothing |
 
 More in [`examples/RULES.example.md`](examples/RULES.example.md).
 </details>
@@ -91,10 +94,10 @@ Use game-testing on this project. Verify against RULES.md and write BUG_REPORT.m
 Claude maps the code, runs the checklist, writes tests, and reports findings with evidence:
 
 ```text
-BUG-003  Major  Jump works after leaving a ledge for 0.4 s (spec: 0.10 s)
-Steps:   1. Walk off ledge  2. Wait 0.3 s  3. Press Jump
+BUG-002  Major  Coyote time too long (violates R-001)
+Steps:    1. Walk off a ledge  2. Wait 0.3 s  3. Press Space
 Evidence: src/player.js:88  coyoteTime = 0.4
-Fix:     set coyoteTime = 0.10
+Fix:      set coyoteTime = 0.10
 ```
 
 Full sample: [`examples/BUG_REPORT.example.md`](examples/BUG_REPORT.example.md).
@@ -134,14 +137,17 @@ Fix the bugs, re-run `game-testing`, and compare reports. Update `RULES.md` when
 
 ## 🚀 Install
 
-### Claude Console / Claude apps
-1. Go to **Skills → Create skill**.
-2. Upload `game-rules-core.zip`, then `game-testing.zip` (see [Releases](../../releases) or run the build command below).
+### Claude apps (Settings → Skills)
+1. Open the skills settings and choose **Add → upload a skill**.
+2. Upload `game-rules-core.zip`, then `game-testing.zip` (from [Releases](../../releases) or built below).
+
+### Claude Console (API)
+**Skills → Create skill**, then upload the same two zips. Skills created in the Console are for the API and do not appear in the Claude app, so add them to each place you use them.
 
 ### Claude Code
 ```bash
-git clone https://github.com/Pranesh0805-S/game-dev-skills.git
-cd game-dev-skills
+git clone https://github.com/Pranesh0805-S/Game-Dev-Skills.git
+cd Game-Dev-Skills
 mkdir -p ~/.claude/skills
 cp -r skills/game-rules-core skills/game-testing ~/.claude/skills/
 ```
@@ -152,6 +158,7 @@ Per-project install: copy into `<your-project>/.claude/skills/` instead.
 ```bash
 bash scripts/package.sh   # writes dist/game-rules-core.zip and dist/game-testing.zip
 ```
+The script needs the `zip` command (Linux, macOS, WSL). Each zip has the skill folder at its root with `SKILL.md` inside.
 
 Details: [docs/getting-started.md](docs/getting-started.md).
 
@@ -160,7 +167,7 @@ Details: [docs/getting-started.md](docs/getting-started.md).
 ## 🗂️ Repo layout
 
 ```text
-game-dev-skills/
+Game-Dev-Skills/
 ├── README.md
 ├── LICENSE
 ├── CONTRIBUTING.md
@@ -172,9 +179,13 @@ game-dev-skills/
 │       ├── SKILL.md
 │       └── references/checklist.md
 ├── scripts/
-│   └── package.sh            ← builds upload-ready zips into dist/
+│   └── package.sh              ← builds upload-ready zips into dist/
 ├── docs/
-│   ├── index.html            ← interactive demo (GitHub Pages)
+│   ├── index.html              ← rule builder + walkthrough (GitHub Pages home)
+│   ├── brag-demo.html          ← animated launch demo (GitHub Pages)
+│   ├── media/
+│   │   ├── brag.mp4            ← 21 s launch video
+│   │   └── brag.jpg            ← video poster
 │   ├── getting-started.md
 │   ├── game-rules-core.md
 │   ├── game-testing.md
@@ -187,15 +198,20 @@ game-dev-skills/
 
 ---
 
-## 🌐 Enable the live demo
+## 🌐 Enable the live demos
 
-Repo **Settings → Pages → Deploy from branch → `main` / `/docs`**. The page at `docs/index.html` is a single static file with no build step.
+Repo **Settings → Pages → Deploy from branch → `main` / `/docs`**. Both pages are single static files with no build step:
+
+- `docs/index.html` → `https://pranesh0805-s.github.io/Game-Dev-Skills/`
+- `docs/brag-demo.html` → `https://pranesh0805-s.github.io/Game-Dev-Skills/brag-demo.html`
+
+The video above is a normal clip. GitHub removes JavaScript from READMEs, so the interactive parts live on the demo pages.
 
 ---
 
 ## ⚠️ Status
 
-Early version. The skills are written and packaged but have not yet been benchmarked across many games. The example outputs in `examples/` are illustrative, not captured from a real run. Issues and PRs welcome, see [CONTRIBUTING.md](CONTRIBUTING.md).
+Early version. The skills are written and packaged but have not yet been benchmarked across many games. The example outputs in `examples/` (and shown in the video) are illustrative, not captured from a real run. Issues and PRs welcome, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 📄 License
 
