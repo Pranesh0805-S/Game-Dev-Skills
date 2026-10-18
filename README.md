@@ -16,7 +16,7 @@
 <sub>Autoplaying preview (silent). <a href="docs/media/brag.mp4">Open the full video with sound</a>.</sub>
 
 **[▶ Rule builder demo](https://pranesh0805-s.github.io/Game-Dev-Skills/)** ·
-**[▶ Animated launch demo](https://pranesh0805-s.github.io/Game-Dev-Skills/docs/brag-demo.html)** ·
+**[▶ Animated launch demo](https://pranesh0805-s.github.io/Game-Dev-Skills/brag-demo.html)** ·
 [Getting started](docs/getting-started.md) ·
 [FAQ](docs/faq.md)
 
