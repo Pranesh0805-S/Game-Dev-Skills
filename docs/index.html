@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>game-dev-skills demo</title>
+<style>
+:root{--bg:#fafaf9;--fg:#1c1917;--muted:#78716c;--card:#fff;--line:#e7e5e4;--accent:#7c3aed;--ok:#16a34a;--bad:#dc2626}
+@media (prefers-color-scheme:dark){:root{--bg:#141413;--fg:#f5f5f4;--muted:#a8a29e;--card:#1e1d1c;--line:#33312f;--accent:#a78bfa;--ok:#4ade80;--bad:#f87171}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,sans-serif}
+main{max-width:860px;margin:0 auto;padding:32px 16px 64px}
+h1{font-size:1.8rem;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 28px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:20px}
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--fg);padding:8px 14px;border-radius:8px}
+button[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+.steps{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.step{padding:6px 12px;border-radius:999px;border:1px solid var(--line);font-size:.9rem}
+.step[aria-pressed=true]{border-color:var(--accent);color:var(--accent);font-weight:600}
+.detail{border-left:3px solid var(--accent);padding:4px 14px;min-height:72px}
+label{display:block;font-size:.85rem;color:var(--muted);margin:10px 0 3px}
+input{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px;overflow:auto;font-size:.85rem;white-space:pre-wrap}
+.msg{font-size:.9rem;margin-top:8px}.ok{color:var(--ok)}.bad{color:var(--bad)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<h1>🎮 game-dev-skills</h1>
+<p class="sub">Click through how the two skills work, then try the rule builder.</p>
+
+<section class="card" aria-label="Skill walkthrough">
+  <div class="tabs" id="tabs">
+    <button data-skill="rules" aria-pressed="true">game-rules-core</button>
+    <button data-skill="test" aria-pressed="false">game-testing</button>
+  </div>
+  <div id="goal" class="sub" style="margin-bottom:4px"></div>
+  <div class="steps" id="steps"></div>
+  <div class="detail" id="detail"></div>
+</section>
+
+<section class="card" aria-label="Rule builder">
+  <h2 style="margin-top:0">Rule builder</h2>
+  <p class="sub">Write one rule. The checker flags vague wording, as <code>game-rules-core</code> requires numbers.</p>
+  <div class="row">
+    <div><label for="t">Trigger</label><input id="t" value="Space pressed"></div>
+    <div><label for="c">Condition</label><input id="c" value="grounded or recently left ground"></div>
+    <div><label for="e">Effect</label><input id="e" value="player jumps fast"></div>
+    <div><label for="x">Edge case</label><input id="x" value="pressed just before landing"></div>
+  </div>
+  <div class="msg" id="check"></div>
+  <pre id="out"></pre>
+  <button id="copy">Copy row</button>
+</section>
+</main>
+
+<script>
+const DATA={
+ rules:{goal:"Goal: design testable rules before writing code.",steps:[
+  ["1. Identify","Dimension (2D/3D), genre, camera and input scheme."],
+  ["2. Define","Entities, states, rules, win/lose, edge cases, written before code."],
+  ["3. Implement","Fixed-timestep loop, explicit state machine, layered collision."],
+  ["4. Collision","Pick colliders, broad then narrow phase, guard against tunneling and snagging."],
+  ["5. Output","Write RULES.md: one numbered row per rule (Trigger, Condition, Effect, Edge case)."]]},
+ test:{goal:"Goal: verify the game against RULES.md with evidence.",steps:[
+  ["1. Read rules","Open RULES.md. If missing, infer rules from code and write them down."],
+  ["2. Map code","Find loop, states, input, collision, spawn and scoring code."],
+  ["3. Static review","Walk the bug checklist: loop, input, collision, memory, save, web."],
+  ["4. Write tests","Unit tests for pure logic; deterministic simulation with fixed seed and dt."],
+  ["5. Report","BUG_REPORT.md: severity, steps, expected vs actual, evidence, fix, not-tested list."]]}
+};
+let skill="rules",idx=0;
+const $=id=>document.getElementById(id);
+function render(){
+  const d=DATA[skill];$("goal").textContent=d.goal;
+  $("steps").innerHTML="";
+  d.steps.forEach((s,i)=>{
+    const b=document.createElement("button");b.className="step";b.textContent=s[0];
+    b.setAttribute("aria-pressed",i===idx);b.onclick=()=>{idx=i;render()};
+    $("steps").appendChild(b);
+  });
+  $("detail").textContent=d.steps[idx][1];
+}
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{
+  skill=b.dataset.skill;idx=0;
+  document.querySelectorAll("#tabs button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  render();
+});
+const vague=["fast","slow","soon","quickly","a bit","some time","a while","high","low","big","small","recently"];
+function build(){
+  const v=["t","c","e","x"].map(i=>$(i).value.trim());
+  const text=v.join(" ").toLowerCase();
+  const hits=vague.filter(w=>new RegExp("\\b"+w+"\\b").test(text));
+  const hasNum=/\d/.test(v[1]+v[2]);
+  const msg=$("check");
+  if(hits.length){msg.className="msg bad";msg.textContent="Vague words: "+hits.join(", ")+". Replace with numbers and units (e.g. 0.10 s, 9.0 m/s).";}
+  else if(!hasNum){msg.className="msg bad";msg.textContent="No number in Condition or Effect. Add a value with units.";}
+  else{msg.className="msg ok";msg.textContent="Looks testable.";}
+  $("out").textContent="| R-001 | "+v.join(" | ")+" |";
+}
+["t","c","e","x"].forEach(i=>$(i).addEventListener("input",build));
+$("copy").onclick=async()=>{try{await navigator.clipboard.writeText($("out").textContent);$("copy").textContent="Copied";setTimeout(()=>$("copy").textContent="Copy row",1200)}catch(e){}};
+render();build();
+</script>
+</body>
+</html>
