@@ -9,7 +9,11 @@
 [![2D + 3D](https://img.shields.io/badge/2D%20%2B%203D-supported-green)](#-what-it-covers)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-[![Watch the 21-second launch video](docs/media/brag.jpg)](docs/media/brag.mp4)
+<a href="docs/media/brag.mp4">
+  <img src="docs/media/brag.gif" alt="21-second launch demo: rules first, then tests" width="720">
+</a>
+
+<sub>Autoplaying preview (silent). <a href="docs/media/brag.mp4">Open the full video with sound</a>.</sub>
 
 **[▶ Rule builder demo](https://pranesh0805-s.github.io/Game-Dev-Skills/)** ·
 **[▶ Animated launch demo](https://pranesh0805-s.github.io/Game-Dev-Skills/brag-demo.html)** ·
@@ -184,7 +188,8 @@ Game-Dev-Skills/
 │   ├── index.html              ← rule builder + walkthrough (GitHub Pages home)
 │   ├── brag-demo.html          ← animated launch demo (GitHub Pages)
 │   ├── media/
-│   │   ├── brag.mp4            ← 21 s launch video
+│   │   ├── brag.gif            ← autoplaying README preview
+│   │   ├── brag.mp4            ← 21 s launch video (with sound)
 │   │   └── brag.jpg            ← video poster
 │   ├── getting-started.md
 │   ├── game-rules-core.md
@@ -205,7 +210,7 @@ Repo **Settings → Pages → Deploy from branch → `main` / `/docs`**. Both pa
 - `docs/index.html` → `https://pranesh0805-s.github.io/Game-Dev-Skills/`
 - `docs/brag-demo.html` → `https://pranesh0805-s.github.io/Game-Dev-Skills/brag-demo.html`
 
-The video above is a normal clip. GitHub removes JavaScript from READMEs, so the interactive parts live on the demo pages.
+The preview at the top is an animated GIF because GitHub strips JavaScript from READMEs, so anything interactive lives on the demo pages.
 
 ---
 
