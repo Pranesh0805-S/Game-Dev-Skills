@@ -166,6 +166,16 @@ The script needs the `zip` command (Linux, macOS, WSL). Each zip has the skill f
 
 Details: [docs/getting-started.md](docs/getting-started.md).
 
+### Validation reports
+
+The repository validation documents and sandbox evidence are available in [`skills/reports/`](skills/reports/):
+
+- [Repository Validation & Sandbox Test Report](skills/reports/GAME_SKILLS_REPOSITORY_VALIDATION.md)
+- [Sandbox Test Results (JSON)](skills/reports/GAME_SKILLS_SANDBOX_RESULTS.json)
+- [Package Test Documentation](skills/reports/GAME_SKILLS_TEST_DOCUMENTATION.md)
+
+**Validation scope:** Package integrity and selected documentation-demo interactions were checked. These checks do not constitute an end-to-end benchmark of the skills against an actual game project.
+
 ---
 
 ## 🗂️ Repo layout
@@ -179,9 +189,13 @@ Game-Dev-Skills/
 │   ├── game-rules-core/
 │   │   ├── SKILL.md
 │   │   └── references/collision.md
-│   └── game-testing/
-│       ├── SKILL.md
-│       └── references/checklist.md
+│   ├── game-testing/
+│   │   ├── SKILL.md
+│   │   └── references/checklist.md
+│   └── reports/                           ← validation reports and sandbox evidence
+│       ├── GAME_SKILLS_REPOSITORY_VALIDATION.md
+│       ├── GAME_SKILLS_SANDBOX_RESULTS.json
+│       └── GAME_SKILLS_TEST_DOCUMENTATION.md
 ├── scripts/
 │   └── package.sh              ← builds upload-ready zips into dist/
 ├── docs/
