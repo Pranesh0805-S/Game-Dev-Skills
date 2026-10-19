@@ -1,0 +1,57 @@
+{
+  "repository": "Pranesh0805-S/Game-Dev-Skills",
+  "commit": "108c31ef592a00c84b8325fe33d086c3adde54ee",
+  "browser": "Chromium 144.0.7559.96",
+  "summary": {
+    "passed": 9,
+    "failed": 0,
+    "total": 9
+  },
+  "tests": [
+    {
+      "test": "SB-01 Initial load renders without page exceptions",
+      "result": "PASS",
+      "evidence": "title='game-dev-skills demo', page_errors=[]"
+    },
+    {
+      "test": "SB-02 Rules tab has five workflow steps",
+      "result": "PASS",
+      "evidence": "step_count=5"
+    },
+    {
+      "test": "SB-03 Switch to testing tab updates content",
+      "result": "PASS",
+      "evidence": "goal='Goal: verify the game against RULES.md with evidence.'; steps=5"
+    },
+    {
+      "test": "SB-04 Selecting workflow step updates details",
+      "result": "PASS",
+      "evidence": "detail='Find loop, states, input, collision, spawn and scoring code.'"
+    },
+    {
+      "test": "SB-05 Vague rule wording is flagged",
+      "result": "PASS",
+      "evidence": "message='Vague words: fast, recently. Replace with numbers and units (e.g. 0.10 s, 9.0 m/s).'"
+    },
+    {
+      "test": "SB-06 Quantified rule is accepted by checker",
+      "result": "PASS",
+      "evidence": "message='Looks testable.'"
+    },
+    {
+      "test": "SB-07 Rule row output reflects inputs",
+      "result": "PASS",
+      "evidence": "output='| R-001 | Space pressed | grounded within 0.10 s | jump velocity 9.0 m/s | pressed just before landing |'"
+    },
+    {
+      "test": "SB-08 Checker flags vague edge-case wording",
+      "result": "PASS",
+      "evidence": "message='Vague words: recently. Replace with numbers and units (e.g. 0.10 s, 9.0 m/s).'"
+    },
+    {
+      "test": "SB-09 Mobile viewport has no horizontal overflow",
+      "result": "PASS",
+      "evidence": "scrollWidth=375, clientWidth=375"
+    }
+  ]
+}
