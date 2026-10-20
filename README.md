@@ -168,11 +168,11 @@ Details: [docs/getting-started.md](docs/getting-started.md).
 
 ### Validation reports
 
-The repository validation documents and sandbox evidence are available in [`skills/reports/`](skills/reports/):
+The repository validation documents and sandbox evidence are available in [`docs/validation/`](docs/validation/):
 
-- [Repository Validation & Sandbox Test Report](skills/reports/GAME_SKILLS_REPOSITORY_VALIDATION.md)
-- [Sandbox Test Results (JSON)](skills/reports/GAME_SKILLS_SANDBOX_RESULTS.json)
-- [Package Test Documentation](skills/reports/GAME_SKILLS_TEST_DOCUMENTATION.md)
+- [Repository Validation & Sandbox Test Report](docs/validation/GAME_SKILLS_REPOSITORY_VALIDATION.md)
+- [Sandbox Test Results (JSON)](docs/validation/GAME_SKILLS_SANDBOX_RESULTS.json)
+- [Package Test Documentation](docs/validation/GAME_SKILLS_TEST_DOCUMENTATION.md)
 
 **Validation scope:** Package integrity and selected documentation-demo interactions were checked. These checks do not constitute an end-to-end benchmark of the skills against an actual game project.
 
@@ -189,13 +189,9 @@ Game-Dev-Skills/
 │   ├── game-rules-core/
 │   │   ├── SKILL.md
 │   │   └── references/collision.md
-│   ├── game-testing/
-│   │   ├── SKILL.md
-│   │   └── references/checklist.md
-│   └── reports/                           ← validation reports and sandbox evidence
-│       ├── GAME_SKILLS_REPOSITORY_VALIDATION.md
-│       ├── GAME_SKILLS_SANDBOX_RESULTS.json
-│       └── GAME_SKILLS_TEST_DOCUMENTATION.md
+│   └── game-testing/
+│       ├── SKILL.md
+│       └── references/checklist.md
 ├── scripts/
 │   └── package.sh              ← builds upload-ready zips into dist/
 ├── docs/
@@ -205,6 +201,10 @@ Game-Dev-Skills/
 │   │   ├── brag.gif            ← autoplaying README preview
 │   │   ├── brag.mp4            ← 21 s launch video (with sound)
 │   │   └── brag.jpg            ← video poster
+│   ├── validation/             ← validation reports and sandbox evidence
+│   │   ├── GAME_SKILLS_REPOSITORY_VALIDATION.md
+│   │   ├── GAME_SKILLS_SANDBOX_RESULTS.json
+│   │   └── GAME_SKILLS_TEST_DOCUMENTATION.md
 │   ├── getting-started.md
 │   ├── game-rules-core.md
 │   ├── game-testing.md
