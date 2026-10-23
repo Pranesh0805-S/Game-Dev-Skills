@@ -150,14 +150,14 @@ The free skills tell Claude **how** to write rules and test a game. The Pro edit
 
 ### Get Pro
 
-| Product | Price | Buy |
-|---|:-:|:-:|
-| `game-rules-core-pro` | $15 / ₹1,500 | [**Buy**](https://buy.polar.sh/polar_cl_lzeKXkf01IY1XKe6lyJUeya7pJZtssMgyFL1p1LzNZ0) |
-| `game-testing-pro` | $15 / ₹1,500 | [**Buy**](https://buy.polar.sh/polar_cl_oK8gs2axnu4gEdvzOYb0Wt51kCzp0QdDFM8qL1JkVXx) |
+| Product | Price | Buy with Polar | Buy with Dodo Payments |
+|---|:-:|:-:|:-:|
+| `game-rules-core-pro` | $15 / ₹1,500 on Polar, $15 on Dodo | [**Buy**](https://buy.polar.sh/polar_cl_lzeKXkf01IY1XKe6lyJUeya7pJZtssMgyFL1p1LzNZ0) | [**Buy**](https://checkout.dodopayments.com/buy/pdt_0NqMRgIAKeuBSBbvZCW24?quantity=1) |
+| `game-testing-pro` | $15 / ₹1,500 on Polar, $15 on Dodo | [**Buy**](https://buy.polar.sh/polar_cl_oK8gs2axnu4gEdvzOYb0Wt51kCzp0QdDFM8qL1JkVXx) | [**Buy**](https://checkout.dodopayments.com/buy/pdt_0NqMRYCMZdcKjVtJb0fzs?quantity=1) |
 
-Not sure which one? [Pick on one page](https://buy.polar.sh/polar_cl_FSs07vKzMxl8AOVxela3SdcwPGLWL57mTHeVP2OsCrG) (you buy one product at a time).
+Pick whichever checkout you prefer. Both deliver the same ZIP. Payments are handled by [Polar](https://polar.sh) or [Dodo Payments](https://dodopayments.com).
 
-One-time purchase with instant ZIP download, paid by card or UPI through [Polar](https://polar.sh). Requires Python 3.8+ and Node.js 18+. Works with any `SKILL.md`-compatible agent, such as Claude Code, Cursor and Codex CLI.
+One-time purchase with instant ZIP download. Requires Python 3.8+ and Node.js 18+. Works with any `SKILL.md`-compatible agent, such as Claude Code, Cursor and Codex CLI.
 
 <div align="center">
 
