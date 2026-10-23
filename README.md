@@ -20,6 +20,11 @@
 [Getting started](docs/getting-started.md) ·
 [FAQ](docs/faq.md)
 
+**Get it:** free on Agensi:
+[game-rules-core](https://www.agensi.io/skills/game-rules-core) ·
+[game-testing](https://www.agensi.io/skills/game-testing) ·
+[💎 Pro edition](#-pro-edition)
+
 </div>
 
 ---
@@ -143,6 +148,17 @@ Fix the bugs, re-run `game-testing`, and compare reports. Update `RULES.md` when
 
 The free skills tell Claude **how** to write rules and test a game. The Pro edition adds tools that **run** the tests. The free skills in this repo stay free and MIT-licensed; Pro is a separate paid edition (`game-rules-core-pro`, `game-testing-pro`) and is not included here.
 
+### Get Pro
+
+| Product | Price | Buy |
+|---|:-:|:-:|
+| `game-rules-core-pro` | $15 / ₹1,500 | [**Buy**](https://buy.polar.sh/polar_cl_lzeKXkf01IY1XKe6lyJUeya7pJZtssMgyFL1p1LzNZ0) |
+| `game-testing-pro` | $15 / ₹1,500 | [**Buy**](https://buy.polar.sh/polar_cl_oK8gs2axnu4gEdvzOYb0Wt51kCzp0QdDFM8qL1JkVXx) |
+
+Not sure which one? [Pick on one page](https://buy.polar.sh/polar_cl_FSs07vKzMxl8AOVxela3SdcwPGLWL57mTHeVP2OsCrG) (you buy one product at a time).
+
+One-time purchase with instant ZIP download, paid by card or UPI through [Polar](https://polar.sh). Requires Python 3.8+ and Node.js 18+. Works with any `SKILL.md`-compatible agent, such as Claude Code, Cursor and Codex CLI.
+
 <div align="center">
 
 <a href="docs/media/brag-pro.mp4">
@@ -163,7 +179,7 @@ The free skills tell Claude **how** to write rules and test a game. The Pro edit
 | Genre playbooks | — | ✅ 4 genres |
 | Release verdict (Ship / Do Not Ship) | — | ✅ |
 | `RULES.md` linter | — | ✅ |
-| Physics tuner (gravity / jump values checked at 30, 60, 144 FPS) | — | ✅ |
+| Physics tuner (gravity / jump values checked at 30, 60, 120, 144 FPS) | — | ✅ |
 | `RULES.md` scaffolds | — | ✅ 5 genres |
 | Tested code templates (fixed timestep, state machine, swept collision) | — | ✅ |
 
@@ -202,6 +218,9 @@ Fix:      skip player.update while state === 'paused'
 ---
 
 ## 🚀 Install
+
+### From Agensi (free)
+Download the free skills from Agensi: [game-rules-core](https://www.agensi.io/skills/game-rules-core) and [game-testing](https://www.agensi.io/skills/game-testing) (an Agensi account is needed to download). They follow the open `SKILL.md` standard, so they work with Claude Code, Cursor, Codex CLI and other compatible agents.
 
 ### Claude apps (Settings → Skills)
 1. Open the skills settings and choose **Add → upload a skill**.
