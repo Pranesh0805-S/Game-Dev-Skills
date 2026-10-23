@@ -139,6 +139,68 @@ Fix the bugs, re-run `game-testing`, and compare reports. Update `RULES.md` when
 
 ---
 
+## 💎 Pro edition
+
+The free skills tell Claude **how** to write rules and test a game. The Pro edition adds tools that **run** the tests. The free skills in this repo stay free and MIT-licensed; Pro is a separate paid edition (`game-rules-core-pro`, `game-testing-pro`) and is not included here.
+
+<div align="center">
+
+<a href="docs/media/brag-pro.mp4">
+  <img src="docs/media/brag-pro.gif" alt="25-second video: Free tells Claude how to test, Pro runs the tests" width="720">
+</a>
+
+<sub>Autoplaying preview (silent). <a href="docs/media/brag-pro.mp4">Open the full 25 s video with sound</a>.</sub>
+
+</div>
+
+### Free vs Pro
+
+| | Free (this repo) | Pro |
+|---|:-:|:-:|
+| Workflow and checklists | ✅ | ✅ |
+| Static scanner | — | ✅ 12 rules |
+| Simulation harness | Described only | ✅ Runnable |
+| Genre playbooks | — | ✅ 4 genres |
+| Release verdict (Ship / Do Not Ship) | — | ✅ |
+| `RULES.md` linter | — | ✅ |
+| Physics tuner (gravity / jump values checked at 30, 60, 144 FPS) | — | ✅ |
+| `RULES.md` scaffolds | — | ✅ 5 genres |
+| Tested code templates (fixed timestep, state machine, swept collision) | — | ✅ |
+
+### 🔬 Real run: 3D Dino
+
+Pro was run on [3D Dino](https://github.com/Pranesh0805-S/3D-Dino) ([play it](https://3-d-dino.vercel.app)), a Three.js endless runner. Unlike the illustrative files in `examples/`, these two files are real output:
+
+| File | What it is |
+|---|---|
+| [`RULES.md`](examples/3d-dino-pro-run/RULES.md) | 47 rules inferred from the game's code, each with a trigger, condition, effect and edge case. The linter reports 0 errors and 0 warnings. |
+| [`BUG_REPORT.md`](examples/3d-dino-pro-run/BUG_REPORT.md) | Severity-ranked findings plus a "NOT tested" list. |
+
+**Result: 76/100, SHIP WITH KNOWN ISSUES.**
+
+| Severity | Confirmed |
+|---|:-:|
+| Critical | 0 |
+| Major | 1 |
+| Minor | 4 |
+| Polish | 2 |
+| **Total** | **7** |
+
+The simulation harness drove the game's real `Game` class through 49 automated checks: 39 passed and 10 failed. Each failure is either a bug or a reported rule deviation. The one Major finding:
+
+```text
+BUG-001  Major  Pausing mid-jump keeps simulating the dino
+Steps:    1. Jump  2. Pause for 2 s  3. Resume
+Expected: dino and world both frozen while paused
+Actual:   dino lands while paused; over a cactus, resuming kills it at once
+Evidence: src/game/game.ts:237-243 still calls player.update(dt) when paused
+Fix:      skip player.update while state === 'paused'
+```
+
+> The `qa/` evidence files that the report cites (harness output, scan output) live in the 3D Dino project, not in this repo. The report's score is computed as 100 − 25 per Critical − 10 per Major − 3 per Minor − 1 per Polish.
+
+---
+
 ## 🚀 Install
 
 ### Claude apps (Settings → Skills)
